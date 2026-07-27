@@ -62,6 +62,22 @@ class ValidatorTests {
 	}
 
 	@Test
+	void shouldNotValidateWhenFirstNameTooShort() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+
+		Person person = new Person();
+		person.setFirstName("Jo");
+		person.setLastName("Smith");
+
+		Validator validator = createValidator();
+		Set<ConstraintViolation<Person>> constraintViolations = validator.validate(person);
+
+		ConstraintViolation<Person> violation = getOnlyViolation(constraintViolations);
+		assertThat(violation.getPropertyPath()).hasToString("firstName");
+		assertThat(violation.getMessage()).isEqualTo("size must be between 3 and 30");
+	}
+
+	@Test
 	void shouldNotValidateWhenLastNameEmpty() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 
@@ -75,6 +91,22 @@ class ValidatorTests {
 		ConstraintViolation<Person> violation = getOnlyViolation(constraintViolations);
 		assertThat(violation.getPropertyPath()).hasToString("lastName");
 		assertThat(violation.getMessage()).isEqualTo("must not be blank");
+	}
+
+	@Test
+	void shouldNotValidateWhenLastNameTooShort() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+
+		Person person = new Person();
+		person.setFirstName("George");
+		person.setLastName("Li");
+
+		Validator validator = createValidator();
+		Set<ConstraintViolation<Person>> constraintViolations = validator.validate(person);
+
+		ConstraintViolation<Person> violation = getOnlyViolation(constraintViolations);
+		assertThat(violation.getPropertyPath()).hasToString("lastName");
+		assertThat(violation.getMessage()).isEqualTo("size must be between 3 and 30");
 	}
 
 }

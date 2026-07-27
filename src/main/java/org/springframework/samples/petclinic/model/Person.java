@@ -29,12 +29,12 @@ import jakarta.validation.constraints.Size;
 public class Person extends BaseEntity {
 
 	@Column(length = 30)
-	@Size(max = 30)
+	@Size(min = 3, max = 30)
 	@NotBlank
 	private String firstName;
 
 	@Column(length = 30)
-	@Size(max = 30)
+	@Size(min = 3, max = 30)
 	@NotBlank
 	private String lastName;
 
